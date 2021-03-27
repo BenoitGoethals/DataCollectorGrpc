@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>DataCollector.core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\benoit\.nuget\packages\nlog.config\4.7.9\contentFiles\any\any\NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentScheduler" Version="5.5.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="NLog.Config" Version="4.7.9" />
+    <PackageReference Include="SimpleFeedReader" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataCollector.DataLayer\DataCollector.DataLayer.csproj" />
+  </ItemGroup>
+
+</Project>
