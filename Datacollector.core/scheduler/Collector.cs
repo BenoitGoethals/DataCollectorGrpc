@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Datacollector.core.collectors;
 using DataCollector.core.model;
+using Datacollector.core.words;
 using DataCollector.DataLayer;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
@@ -17,12 +18,14 @@ namespace Datacollector.core.scheduler
     {
         private readonly ILogger<Collector> _logger;
         private readonly IMongoDbRepoAsync<IntelItem> _dbRepoAsync;
+        private readonly IWordCatalog _catalog;
 
-        public Collector(ILogger<Collector> logger, IExtracterScheduler extracterScheduler, IMongoDbRepoAsync<IntelItem> dbRepoAsync)
+        public Collector(ILogger<Collector> logger, IExtracterScheduler extracterScheduler, IMongoDbRepoAsync<IntelItem> dbRepoAsync, IWordCatalog catalog)
         {
             _logger = logger;
             _extracterScheduler = extracterScheduler;
             _dbRepoAsync = dbRepoAsync;
+            _catalog = catalog;
         }
 
 
@@ -40,7 +43,7 @@ namespace Datacollector.core.scheduler
         {
             _urls.ForEach(t=>
             {
-                var webExtracter = new RssExtracter(t);
+                var webExtracter = new RssExtracter(t, _catalog);
                 webExtracter.Completed += WebExtracter_Completed;
                 _extracterScheduler.Add(extracter: webExtracter, 1);
             });

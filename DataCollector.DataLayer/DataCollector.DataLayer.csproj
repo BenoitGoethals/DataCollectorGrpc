@@ -13,9 +13,6 @@
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.12.1" />
     <PackageReference Include="NLog" Version="4.7.9" />
     <PackageReference Include="NLog.Config" Version="4.7.9" />
-    <PackageReference Include="SolrNet" Version="1.0.19" />
-    <PackageReference Include="SolrNet.Core" Version="1.0.19" />
-    <PackageReference Include="SolrNet.Microsoft.DependencyInjection" Version="1.0.19" />
   </ItemGroup>
 
   <ItemGroup>

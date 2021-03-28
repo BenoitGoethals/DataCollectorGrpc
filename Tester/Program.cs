@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using DataCollector.core.model;
 using Datacollector.core.scheduler;
+using Datacollector.core.words;
 using DataCollector.DataLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
-using SolrNet.Exceptions;
+
 
 namespace Tester
 {
@@ -27,6 +28,7 @@ namespace Tester
                                    new MongoDbRepoAsync<IntelItem>(_config["Mongo:URL"], _config["Mongo:db"]))
                                .AddSingleton<ICollector, Collector>()
                                .AddSingleton<IExtracterScheduler, ExtracterScheduler>()
+                               .AddSingleton<IWordCatalog, WordCatalog>()
 
                                .AddHostedService<Worker>()
 

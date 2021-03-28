@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using DataCollector.core.model;
+using Datacollector.core.words;
 using FluentScheduler;
 using SimpleFeedReader;
 
@@ -12,10 +13,12 @@ namespace Datacollector.core.collectors
     public class RssExtracter : Extracter, IExtracter
     {
         private RssSource _rssSource;
+        private readonly IWordCatalog _catalog;
 
-        public RssExtracter(RssSource rss)
+        public RssExtracter(RssSource rss, IWordCatalog catalog)
         {
             this._rssSource = rss;
+            _catalog = catalog;
         }
 
         public void Start()
@@ -44,6 +47,7 @@ namespace Datacollector.core.collectors
                         var items = reader.RetrieveFeed(_rssSource.Url);
                         foreach (var i in items)
                         {
+                             var keywords = _catalog.GetKeywords(_rssSource.LanguageSource.Description,i.Summary);
                             IntelItem intelItem = new IntelItem
                             {
                                 Url = _rssSource.Url,
@@ -53,6 +57,7 @@ namespace Datacollector.core.collectors
                                 Reamrks = i?.Categories?.FirstOrDefault()
                             };
                             intelItem.Keywords.AddRange(i.Categories);
+                            intelItem.Keywords.AddRange(keywords);
                             intelItem.SourceCountry = _rssSource.SourceCountry;
                             intelItem.LevelTrustable = _rssSource.Trustable;
                             intelItem.LanguageIntel = _rssSource.LanguageSource;
