@@ -31,9 +31,9 @@ namespace Datacollector.core.scheduler
 
         private readonly List<RssSource> _urls=new List<RssSource>();
 
-        public void AddRss(RssSource url)
+        public void AddRss(List<RssSource> urls)
         {
-            _urls.Add(url);
+            _urls.AddRange(urls);
         }
 
         public void Start()

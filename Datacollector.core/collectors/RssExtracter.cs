@@ -33,7 +33,7 @@ namespace Datacollector.core.collectors
         {
             var token = CancellationTokenSource.Token;
             var reader = new FeedReader();
-            HttpClient vClient = new HttpClient();
+           using HttpClient vClient = new HttpClient();
             var http = await vClient.GetAsync(_rssSource.Url, token);
             if (http.IsSuccessStatusCode)
             {
@@ -77,6 +77,7 @@ namespace Datacollector.core.collectors
             {
                 _logger.Warn("bad url "+ _rssSource.Url);
             }
+            
         }
 
         void IJob.Execute()

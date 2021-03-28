@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using DataCollector.core.model;
 using Datacollector.core.scheduler;
@@ -16,45 +17,50 @@ namespace Tester
     public class Program
     {
 
-        private static IServiceProvider BuildDi(IConfiguration config)
-        {
-            return new ServiceCollection().AddSingleton<ICollector, Collector>()
-             //   .AddSingleton<IMongoDbRepoAsync<IntelItem>>(new MongoDbRepoAsync<IntelItem>("mongodb://192.168.0.190:27017/intel", "Intel"))
-                .AddSingleton<IMongoDbRepoAsync<IntelItem>>(new MongoDbRepoAsync<IntelItem>(config["Mongo:URL"], config["Mongo:db"]))
-                .AddSingleton<IExtracterScheduler, ExtracterScheduler>()
-                .AddSingleton<IExtracterScheduler,ExtracterScheduler>()
-                
-                .AddHostedService<Worker>()
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+               Host.CreateDefaultBuilder(args)
+               //    .ConfigureAppConfiguration(config => config.AddUserSecrets(Assembly.GetExecutingAssembly()))
+                   .ConfigureServices((hostContext, services) =>
+                       {
+                           services
+                               .AddSingleton<IMongoDbRepoAsync<IntelItem>>(
+                                   new MongoDbRepoAsync<IntelItem>(_config["Mongo:URL"], _config["Mongo:db"]))
+                               .AddSingleton<ICollector, Collector>()
+                               .AddSingleton<IExtracterScheduler, ExtracterScheduler>()
 
-                .AddLogging(loggingBuilder =>
-                {
-                    // configure Logging with NLog
-                    loggingBuilder.ClearProviders();
-                    loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    loggingBuilder.AddNLog(config);
-                }
+                               .AddHostedService<Worker>()
 
-                    )
-                .BuildServiceProvider();
-        }
+                               .AddLogging(loggingBuilder =>
+                               {
+                                // configure Logging with NLog
+                                loggingBuilder.ClearProviders();
+                                   loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                                   loggingBuilder.AddNLog(_config);
+                               });
+                       }
+                   );
 
 
+
+        // requires using Microsoft.Extensions.Configuration;
+        private static IConfiguration _config;
         static void Main(string[] args)
         {
+
             var logger = LogManager.GetCurrentClassLogger();
             try
             {
-                var config = new ConfigurationBuilder()
-                    .SetBasePath(System.IO.Directory.GetCurrentDirectory()) //From NuGet Package Microsoft.Extensions.Configuration.Json
-                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .Build();
 
-                var servicesProvider = BuildDi(config);
-                using (servicesProvider as IDisposable)
-                {
-                    Console.WriteLine("Press ANY key to exit");
-                    Console.ReadKey();
-                }
+                _config = new ConfigurationBuilder()
+                   .SetBasePath(System.IO.Directory.GetCurrentDirectory()) //From NuGet Package Microsoft.Extensions.Configuration.Json
+                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                   .Build();
+                CreateHostBuilder(args).Build().Run();
+
+
+                Console.WriteLine("Press ANY key to exit");
+                Console.ReadKey();
+
             }
             catch (Exception ex)
             {

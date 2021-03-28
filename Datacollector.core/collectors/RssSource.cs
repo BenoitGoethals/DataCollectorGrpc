@@ -14,6 +14,10 @@ namespace Datacollector.core.collectors
             CovertArea = covertArea;
         }
 
+        public RssSource()
+        {
+        }
+
         public string Url { get; set; }
         public Country SourceCountry { get; set; }
 
