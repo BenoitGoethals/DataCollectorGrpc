@@ -15,7 +15,7 @@ namespace Datacollector.core.util
             {
                 XmlSerializer mySerializer = new XmlSerializer(typeof(T));
                 // To write to a file, create a StreamWriter object.  
-                StreamWriter myWriter = new StreamWriter(@"c:\temp\rss.xml");
+                StreamWriter myWriter = new StreamWriter(@"rss.xml");
                 mySerializer.Serialize(myWriter, myObject);
                 myWriter.Close();
             }
@@ -33,7 +33,7 @@ namespace Datacollector.core.util
             {
                 var mySerializer = new XmlSerializer(typeof(T));
                 // To read the file, create a FileStream.
-                 var myFileStream = new  StreamReader(@"c:\temp\rss.xml");
+                 var myFileStream = new  StreamReader(@"rss.xml");
                 // Call the Deserialize method and cast to the object type.
                 var myObject = (T)mySerializer.Deserialize(myFileStream);
                 return myObject;

@@ -32,8 +32,8 @@ namespace Datacollector.core.words
             try
             {
                 
-                _stopWords.Add("English",new HashSet<string>(File.ReadLines(@"c:/temp/nouns.txt"), StringComparer.OrdinalIgnoreCase));
-                _stopWords.Add("Dutch", new HashSet<string>(File.ReadLines(@"c:/temp/nounlist-NL.txt"), StringComparer.OrdinalIgnoreCase));
+                _stopWords.Add("English",new HashSet<string>(File.ReadLines(@"nouns.txt"), StringComparer.OrdinalIgnoreCase));
+                _stopWords.Add("Dutch", new HashSet<string>(File.ReadLines(@"nounlist-NL.txt"), StringComparer.OrdinalIgnoreCase));
             }
             catch (Exception e)
             {
