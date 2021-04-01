@@ -7,6 +7,6 @@ namespace DataAnalyser.Util
     {
         OutputGenerator Create(List<IntelItem> items,string  subject);
         OutputGenerator Save();
-        OutputGenerator Save(string path);
+     
     }
 }

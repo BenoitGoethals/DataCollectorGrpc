@@ -35,7 +35,7 @@ namespace DataAnalyser
                 foreach (var searchKey in LoadSearchKeys())
                 {
                     var collect = _dataSearcherService.Collect(searchKey.Trim()).Result;
-                    if (collect != null)
+                    if (collect != null && collect.Count>0)
                     {
                          _outputGenerator.Create(collect,searchKey).Save();
                     }
