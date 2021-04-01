@@ -14,8 +14,14 @@ namespace DataCollector.DataLayer
         {
             var client = new MongoClient(host);
             _database = client.GetDatabase(nameDb);
+        _documentName = typeof(T).ToString();
+            var collection = _database.GetCollection<T>(_documentName);
 
-            _documentName = typeof(T).ToString();
+            var indexOptions = new CreateIndexOptions();
+            var indexKeys = Builders<T>.IndexKeys.Text( "$**");
+            var indexModel = new CreateIndexModel<T>(indexKeys, indexOptions);
+             collection.Indexes.CreateOneAsync(indexModel);
+
         }
 
         protected MongoDbConnection()

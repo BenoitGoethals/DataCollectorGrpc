@@ -11,7 +11,8 @@ namespace DataCollector.DataLayer
        
         public MongoDbRepoAsync(string host, string nameDb):base(host,nameDb)
         {
-           
+            
+            
         }
 
         public MongoDbRepoAsync():base()
@@ -296,7 +297,7 @@ namespace DataCollector.DataLayer
             catch (Exception e)
             {
                 Logger.Error(e.StackTrace);
-                return await default(Task<List<T>>);
+                return null;
             }
         }
     }
