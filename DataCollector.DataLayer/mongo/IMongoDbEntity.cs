@@ -1,4 +1,4 @@
-﻿namespace DataCollector.DataLayer
+namespace DataCollector.DataLayer
 {
     /*
      * Marker

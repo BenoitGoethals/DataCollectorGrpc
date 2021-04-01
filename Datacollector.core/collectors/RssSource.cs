@@ -1,4 +1,6 @@
-﻿using DataCollector.core.model;
+using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
+using DataCollector.core.model;
 
 namespace Datacollector.core.collectors
 {
@@ -17,19 +19,20 @@ namespace Datacollector.core.collectors
         public RssSource()
         {
         }
-
+        [Name("Url")]
         public string Url { get; set; }
+        [Name("Country")]
         public Country SourceCountry { get; set; }
-
+        [Name("Trustable")]
         public int Trustable { get; set; }
-
+        [Name("LanguageSource")]
         public Language LanguageSource { get; set; }
 
-        
+        [Name("Type")]
 
         public TypeOfInfo Type { get; set; }
 
-       
+        [Name("CovertArea")]
 
         public Area CovertArea { get; set; }
 

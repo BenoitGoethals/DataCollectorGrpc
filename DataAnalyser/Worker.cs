@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -35,7 +35,7 @@ namespace DataAnalyser
                 foreach (var searchKey in LoadSearchKeys())
                 {
                     var collect = _dataSearcherService.Collect(searchKey.Trim()).Result;
-                    if (collect != null)
+                    if (collect != null && collect.Count>0)
                     {
                          _outputGenerator.Create(collect,searchKey).Save();
                     }
@@ -47,7 +47,7 @@ namespace DataAnalyser
                     });
                 }
               
-                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
+                await Task.Delay(TimeSpan.FromHours(2), stoppingToken);
 
             }
         }

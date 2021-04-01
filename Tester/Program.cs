@@ -1,8 +1,7 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
+using System;
 using DataCollector.core.model;
 using Datacollector.core.scheduler;
+using Datacollector.core.util;
 using Datacollector.core.words;
 using DataCollector.DataLayer;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +11,7 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 
-
-namespace Tester
+namespace Collector
 {
     public class Program
     {
@@ -26,10 +24,10 @@ namespace Tester
                            services
                                .AddSingleton<IMongoDbRepoAsync<IntelItem>>(
                                    new MongoDbRepoAsync<IntelItem>(_config["Mongo:URL"], _config["Mongo:db"]))
-                               .AddSingleton<ICollector, Collector>()
+                               .AddSingleton<ICollector, Datacollector.core.scheduler.Collector>()
                                .AddSingleton<IExtracterScheduler, ExtracterScheduler>()
                                .AddSingleton<IWordCatalog, WordCatalog>()
-
+                               .AddSingleton<ICsvLoader,CsvLoader>()
                                .AddHostedService<Worker>()
 
                                .AddLogging(loggingBuilder =>

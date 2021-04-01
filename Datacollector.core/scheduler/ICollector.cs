@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Datacollector.core.collectors;
 
 namespace Datacollector.core.scheduler

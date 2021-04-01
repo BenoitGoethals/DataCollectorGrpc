@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DataAnalyser.Service;
 using DataAnalyser.Util;
 using DataCollector.core.model;

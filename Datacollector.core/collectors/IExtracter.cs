@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DataCollector.core.model;
 using FluentScheduler;
 

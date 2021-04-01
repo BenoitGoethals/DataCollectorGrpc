@@ -1,0 +1,119 @@
+@page "/"
+@using Syncfusion.Blazor.Grids
+
+@using System.Collections.ObjectModel;
+@using System.ComponentModel;
+@using System.IO
+
+         <SfGrid DataSource="@ObservableData" AllowPaging="true">
+                <GridColumns>
+                    <GridColumn Field=@nameof(ObservableDatas.Id) HeaderText="ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(ObservableDatas.FileName) HeaderText="Name" Width="30"></GridColumn>
+
+                    <GridColumn Field=@nameof(ObservableDatas.OrderDate) HeaderText="Date" Width="60"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+    
+
+@code{
+    private FileSystemWatcher watcher = new FileSystemWatcher();
+    public ObservableCollection<ObservableDatas> ObservableData { get; set; } = new ObservableCollection<ObservableDatas>();
+  
+    private int uniqueid { get; set; }
+    public  void OnChanged(object source, FileSystemEventArgs e)
+    {
+        // Specify what is done when a file is changed.
+        Console.WriteLine("{0}, with path {1} has been {2}", e.Name, e.FullPath, e.ChangeType);
+        ObservableData.Add(new ObservableDatas() {FileName = e.Name,OrderDate = new DateTime(1991, 05, 15)});
+    }
+    public  void OnRenamed(object source, RenamedEventArgs e)
+    {
+        // Specify what is done when a file is renamed.
+        Console.WriteLine(" {0} renamed to {1}", e.OldFullPath, e.FullPath);
+    }
+    protected override void OnInitialized()
+    {
+
+        try
+        {
+            watcher.Path = "c:/temp/pdf";
+            // Watch both files and subdirectories.
+            watcher.IncludeSubdirectories = true;
+            // Watch for all changes specified in the NotifyFilters
+            //enumeration.
+            watcher.NotifyFilter = NotifyFilters.Attributes |
+            NotifyFilters.CreationTime |
+            NotifyFilters.DirectoryName |
+            NotifyFilters.FileName |
+            NotifyFilters.LastAccess |
+            NotifyFilters.LastWrite |
+            NotifyFilters.Security |
+            NotifyFilters.Size;
+            // Watch all files.
+            watcher.Filter = "*.*";
+            // Add event handlers.
+       
+            watcher.Created += new FileSystemEventHandler(OnChanged);
+            watcher.Deleted += new FileSystemEventHandler(OnChanged);
+         // watcher.BeginInit();
+            //Start monitoring.
+            watcher.EnableRaisingEvents = true;
+            
+            
+            
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("A Exception Occurred :" + e);
+        }
+        catch (Exception oe)
+        {
+            Console.WriteLine("An Exception Occurred :" + oe);
+        }
+
+      
+      
+    
+    }
+   
+    public void DeleteRecord()
+    {
+        if (ObservableData.Count() != 0)
+        {
+            ObservableData.Remove(ObservableData.First());
+        }
+    }
+    public void UpdateRecord()
+    {
+        if (ObservableData.Count() != 0)
+        {
+            var name = ObservableData.First();
+
+        }
+    }
+    public class ObservableDatas : INotifyPropertyChanged
+    {
+
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                this.id = value;
+                NotifyPropertyChanged("Id");
+            }
+        }
+        public DateTime OrderDate { get; set; }
+        public string FileName { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataCollector.core.model;
 using Datacollector.core.scheduler;
@@ -22,7 +22,7 @@ namespace DataAnalyser.Service
         public async Task<List<IntelItem>> Collect(string word)
         {
             var builder = Builders<IntelItem>.Filter;
-            var filter = builder.Text(word,new TextSearchOptions(){CaseSensitive = false}) ;
+            var filter = builder.Text(word,new TextSearchOptions(){CaseSensitive = false,DiacriticSensitive = true}) ;
             return await _dbRepoAsync.Get(filter: filter);
        
         }

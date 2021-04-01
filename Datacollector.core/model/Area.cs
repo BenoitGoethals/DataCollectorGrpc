@@ -1,4 +1,4 @@
-﻿namespace DataCollector.core.model
+namespace DataCollector.core.model
 {
     public enum Area
     {

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using DataCollector.DataLayer.mongo;
 using MongoDB.Bson;
 using MongoDB.Driver.GridFS;

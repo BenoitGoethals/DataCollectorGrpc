@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using DataCollector.core.model;
 
 namespace DataAnalyser.Util
@@ -7,6 +7,6 @@ namespace DataAnalyser.Util
     {
         OutputGenerator Create(List<IntelItem> items,string  subject);
         OutputGenerator Save();
-        OutputGenerator Save(string path);
+     
     }
 }

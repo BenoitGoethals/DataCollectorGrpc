@@ -1,0 +1,157 @@
+@page "/datagrid-features"
+@using System.Collections.ObjectModel
+@using System.ComponentModel
+@using System.IO
+@using Syncfusion.Blazor.Grids
+<h2>DataGrid</h2>
+<br />
+<div id="ControlRegion">
+    <SfGrid ID="Grid" DataSource="@_observableData" @ref="Grid" AllowPaging="true" AllowFiltering="true" AllowReordering="true" AllowResizing="true" AllowGrouping="true" AllowPdfExport="true" AllowSelection="true"
+            AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update","PdfExport","Search"})" Height="315" Width="900">
+
+        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.FilterBar"></GridFilterSettings>
+        <GridPageSettings PageSizes="true"></GridPageSettings>
+        <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
+        <GridEvents OnToolbarClick="ToolbarClick" TValue="DataIntel"></GridEvents>
+        <GridColumns>
+            <GridColumn Type='ColumnType.CheckBox' Width="3"></GridColumn>
+
+            <GridColumn Field=@nameof(DataIntel.Id) HeaderText="ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="10"></GridColumn>
+            <GridColumn Field=@nameof(DataIntel.FileName) HeaderText="Name" Width="100"></GridColumn>
+
+            <GridColumn Field=@nameof(DataIntel.OrderDate) HeaderText="Date" Width="60"></GridColumn>
+
+        </GridColumns>
+    </SfGrid>
+</div>
+<br />
+
+<br />
+<style>
+    .ulstyle {
+        margin: 0px;
+        padding-left: 20px;
+        display: inline-block;
+    }
+
+    .list {
+        float: left;
+        line-height: 20px;
+        margin: 10px;
+        min-width: 200px;
+    }
+</style>
+@code{
+    SfGrid<DataIntel> Grid;
+
+    public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Id == "Grid_pdfexport")
+        {
+            this.Grid.PdfExport();
+        }
+    }
+    private FileSystemWatcher watcher = new FileSystemWatcher();
+    private ObservableCollection<DataIntel> _observableData = new ObservableCollection<DataIntel>();
+
+    public ObservableCollection<DataIntel> ObservableData
+    {
+        get => _observableData;
+        set => _observableData = value;
+    }
+
+    private int uniqueid { get; set; }
+    public void OnChanged(object source, FileSystemEventArgs e)
+    {
+        ObservableData.Add(new DataIntel() { FileName = e.Name, OrderDate = File.GetCreationTime(e.FullPath) });
+    }
+    public void OnRenamed(object source, RenamedEventArgs e)
+    {
+        // Specify what is done when a file is renamed.
+        Console.WriteLine(" {0} renamed to {1}", e.OldFullPath, e.FullPath);
+    }
+    protected override void OnInitialized()
+    {
+        var allFiles = Directory.GetFiles("c:/temp/pdf");
+        ObservableData.Clear();
+        foreach (var file in allFiles)
+        {
+            ObservableData.Add(new DataIntel() {FileName = file,OrderDate = File.GetCreationTime(file)});
+        }
+        try
+        {
+            watcher.Path = "c:/temp/pdf";
+            // Watch both files and subdirectories.
+            watcher.IncludeSubdirectories = true;
+            // Watch for all changes specified in the NotifyFilters
+            //enumeration.
+            watcher.NotifyFilter = NotifyFilters.Attributes |
+            NotifyFilters.CreationTime |
+            NotifyFilters.DirectoryName |
+            NotifyFilters.FileName |
+            NotifyFilters.LastAccess |
+            NotifyFilters.LastWrite |
+            NotifyFilters.Security |
+            NotifyFilters.Size;
+            // Watch all files.
+            watcher.Filter = "*.*";
+            // Add event handlers.
+
+            watcher.Created += new FileSystemEventHandler(OnChanged);
+            watcher.Deleted += new FileSystemEventHandler(ondelete);
+
+            // watcher.BeginInit();
+            //Start monitoring.
+            watcher.EnableRaisingEvents = true;
+
+
+
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("A Exception Occurred :" + e);
+        }
+        catch (Exception oe)
+        {
+            Console.WriteLine("An Exception Occurred :" + oe);
+        }
+
+
+
+
+    }
+
+    private void ondelete(object sender, FileSystemEventArgs e)
+    {
+        var del = ObservableData.First(t => t.FileName.EndsWith(e.Name));
+        ObservableData.Remove(del);
+    }
+
+
+    public class DataIntel : INotifyPropertyChanged
+    {
+
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                this.id = value;
+                NotifyPropertyChanged("Id");
+            }
+        }
+        public DateTime OrderDate { get; set; }
+        public string FileName { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -32,8 +32,8 @@ namespace Datacollector.core.words
             try
             {
                 
-                _stopWords.Add("English",new HashSet<string>(File.ReadLines(@"nouns.txt"), StringComparer.OrdinalIgnoreCase));
-                _stopWords.Add("Dutch", new HashSet<string>(File.ReadLines(@"nounlist-NL.txt"), StringComparer.OrdinalIgnoreCase));
+                _stopWords.Add("EN",new HashSet<string>(File.ReadLines(@"nouns.txt"), StringComparer.OrdinalIgnoreCase));
+                _stopWords.Add("NL", new HashSet<string>(File.ReadLines(@"nounlist-NL.txt"), StringComparer.OrdinalIgnoreCase));
             }
             catch (Exception e)
             {

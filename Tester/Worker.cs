@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Datacollector.core.collectors;
-using DataCollector.core.model;
 using Datacollector.core.scheduler;
 using Datacollector.core.util;
 using Microsoft.Extensions.Hosting;
 
-namespace Tester
+namespace Collector
 {
+
     public class Worker : BackgroundService
     {
         private readonly ICollector _collector;
 
-        public Worker(ICollector collector)
+        private readonly ICsvLoader _csvLoader;
+
+        public Worker(ICollector collector, ICsvLoader csvLoader)
         {
             this._collector = collector;
+            _csvLoader = csvLoader;
         }
 
 
@@ -40,7 +41,7 @@ namespace Tester
 
         //    RssStore.Save(new DtoRss() { RssSources = rssSources });
 
-            _collector.AddRss(RssStore.Load<DtoRss>().RssSources);
+         _collector.AddRss(_csvLoader.Load<RssSource,RssSourceMap>());
             _collector.Start();
             while (!stoppingToken.IsCancellationRequested)
             {

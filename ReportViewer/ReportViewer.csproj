@@ -1,0 +1,184 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Nlog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\benoit\.nuget\packages\nlog.config\4.7.9\contentFiles\any\any\NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\data\docio\adventure.docx" />
+    <None Include="wwwroot\data\docio\bkmk-document-part-template.docx" />
+    <None Include="wwwroot\data\docio\bookmark-template.docx" />
+    <None Include="wwwroot\data\docio\content-control-template.docx" />
+    <None Include="wwwroot\data\docio\create-equation.docx" />
+    <None Include="wwwroot\data\docio\doc-to-pdf.docx" />
+    <None Include="wwwroot\data\docio\doc-to-wordml.doc" />
+    <None Include="wwwroot\data\docio\employees-report-demo.doc" />
+    <None Include="wwwroot\data\docio\essential-docio.doc" />
+    <None Include="wwwroot\data\docio\excel-template.xlsx" />
+    <None Include="wwwroot\data\docio\letter-formatting.doc" />
+    <None Include="wwwroot\data\docio\macro-template.dotm" />
+    <None Include="wwwroot\data\docio\mail-merge-event-template.doc" />
+    <None Include="wwwroot\data\docio\master-template.doc" />
+    <None Include="wwwroot\data\docio\mathematical-equation.docx" />
+    <None Include="wwwroot\data\docio\northwind.docx" />
+    <None Include="wwwroot\data\docio\ole-template.doc" />
+    <None Include="wwwroot\data\docio\ole-template.docx" />
+    <None Include="wwwroot\data\docio\pie-chart.docx" />
+    <None Include="wwwroot\data\docio\rtf-to-word.rtf" />
+    <None Include="wwwroot\data\docio\sales-invoice-demo.doc" />
+    <None Include="wwwroot\data\docio\security-settings.docx" />
+    <None Include="wwwroot\data\docio\source-template1.doc" />
+    <None Include="wwwroot\data\docio\source-template2.doc" />
+    <None Include="wwwroot\data\docio\template-comments.doc" />
+    <None Include="wwwroot\data\docio\template-form-fields.doc" />
+    <None Include="wwwroot\data\docio\template-letter.doc" />
+    <None Include="wwwroot\data\docio\template-report.doc" />
+    <None Include="wwwroot\data\docio\template-revisions.doc" />
+    <None Include="wwwroot\data\docio\template-table-style.doc" />
+    <None Include="wwwroot\data\docio\template-update-fields.docx" />
+    <None Include="wwwroot\data\docio\template.doc" />
+    <None Include="wwwroot\data\docio\track-changes-template.docx" />
+    <None Include="wwwroot\data\docio\watermark.doc" />
+    <None Include="wwwroot\data\docio\word-to-odt.docx" />
+    <None Include="wwwroot\data\pdfviewer\form-filling-document.pdf" />
+    <None Include="wwwroot\data\pdfviewer\pdf-succinctly.pdf" />
+    <None Include="wwwroot\data\pdfviewer\rtl-text.pdf" />
+    <None Include="wwwroot\data\pdf\border-template.pdf" />
+    <None Include="wwwroot\data\pdf\chart.xlsx" />
+    <None Include="wwwroot\data\pdf\corporate-brochure.pdf" />
+    <None Include="wwwroot\data\pdf\corrupted-document.pdf" />
+    <None Include="wwwroot\data\pdf\pdf.pfx" />
+    <None Include="wwwroot\data\pdf\product-catalog.pdf" />
+    <None Include="wwwroot\data\pdf\rgb.icc" />
+    <None Include="wwwroot\data\pdf\source-template.pdf" />
+    <None Include="wwwroot\data\pdf\stock.docx" />
+    <None Include="wwwroot\data\pdf\syncfusion-brochure.pdf" />
+    <None Include="wwwroot\data\pdf\xfa-template.pdf" />
+    <None Include="wwwroot\data\presentation\animation.pptx" />
+    <None Include="wwwroot\data\presentation\embedded-ole-object.pptx" />
+    <None Include="wwwroot\data\presentation\header-footer.pptx" />
+    <None Include="wwwroot\data\presentation\hello-world.pptx" />
+    <None Include="wwwroot\data\presentation\images.pptx" />
+    <None Include="wwwroot\data\presentation\ole-template.docx" />
+    <None Include="wwwroot\data\presentation\shape-with-animation.pptx" />
+    <None Include="wwwroot\data\presentation\slides.pptx" />
+    <None Include="wwwroot\data\presentation\syncfusion-presentation.pptx" />
+    <None Include="wwwroot\data\presentation\template.pptx" />
+    <None Include="wwwroot\data\presentation\transition.pptx" />
+    <None Include="wwwroot\data\xlsio\advanced-filter-data.xlsx" />
+    <None Include="wwwroot\data\xlsio\cf-template.xlsx" />
+    <None Include="wwwroot\data\xlsio\embedded-chart.xlsx" />
+    <None Include="wwwroot\data\xlsio\encrypt.xlsx" />
+    <None Include="wwwroot\data\xlsio\encrypted-workbook.xlsx" />
+    <None Include="wwwroot\data\xlsio\excel-to-json.xlsx" />
+    <None Include="wwwroot\data\xlsio\excel-to-pdf.xlsx" />
+    <None Include="wwwroot\data\xlsio\expense-report.xlsx" />
+    <None Include="wwwroot\data\xlsio\export-sales.xlsx" />
+    <None Include="wwwroot\data\xlsio\filter-data-color.xlsx" />
+    <None Include="wwwroot\data\xlsio\filter-data.xlsx" />
+    <None Include="wwwroot\data\xlsio\formula-template.xls" />
+    <None Include="wwwroot\data\xlsio\group-shapes.xlsx" />
+    <None Include="wwwroot\data\xlsio\icon-filter-data.xlsx" />
+    <None Include="wwwroot\data\xlsio\northwind-data-template.xls" />
+    <None Include="wwwroot\data\xlsio\northwind-template.xlsx" />
+    <None Include="wwwroot\data\xlsio\sorting-data.xlsx" />
+    <None Include="wwwroot\data\xlsio\sparkline.xlsx" />
+    <None Include="wwwroot\images\cards\facebook-icon.svg" />
+    <None Include="wwwroot\images\cards\fav.svg" />
+    <None Include="wwwroot\images\cards\google-icon.svg" />
+    <None Include="wwwroot\images\cards\like.svg" />
+    <None Include="wwwroot\images\cards\mail-icon.svg" />
+    <None Include="wwwroot\images\cards\rainy.svg" />
+    <None Include="wwwroot\images\cards\share.svg" />
+    <None Include="wwwroot\images\cards\twitter-icon.svg" />
+    <None Include="wwwroot\images\circular-gauge\image1.svg" />
+    <None Include="wwwroot\images\circular-gauge\image2.svg" />
+    <None Include="wwwroot\images\circular-gauge\image3.svg" />
+    <None Include="wwwroot\images\circular-gauge\image4.svg" />
+    <None Include="wwwroot\images\circular-gauge\image5.svg" />
+    <None Include="wwwroot\images\circular-gauge\image6.svg" />
+    <None Include="wwwroot\images\common\github-logo.svg" />
+    <None Include="wwwroot\images\common\home-logo.svg" />
+    <None Include="wwwroot\images\common\nuget.svg" />
+    <None Include="wwwroot\images\common\preview-label.svg" />
+    <None Include="wwwroot\images\common\syncfusion-logo.svg" />
+    <None Include="wwwroot\images\common\syncfusion-mobile-logo.svg" />
+    <None Include="wwwroot\images\docio\ess-chart.emf" />
+    <None Include="wwwroot\images\linear-gauge\cycling.svg" />
+    <None Include="wwwroot\images\linear-gauge\exercise-tracking.svg" />
+    <None Include="wwwroot\images\linear-gauge\low.svg" />
+    <None Include="wwwroot\images\linear-gauge\moderate.svg" />
+    <None Include="wwwroot\images\linear-gauge\running.svg" />
+    <None Include="wwwroot\images\linear-gauge\walking.svg" />
+    <None Include="wwwroot\images\maps\cluster.svg" />
+    <None Include="wwwroot\images\maps\compass.svg" />
+    <None Include="wwwroot\images\maps\group.svg" />
+    <None Include="wwwroot\images\maps\map-tooltip.svg" />
+    <None Include="wwwroot\images\maps\weather-clear.svg" />
+    <None Include="wwwroot\images\maps\weather-clouds.svg" />
+    <None Include="wwwroot\images\maps\weather-rain.svg" />
+    <None Include="wwwroot\images\rich-text-editor\dislike.svg" />
+    <None Include="wwwroot\images\rich-text-editor\like.svg" />
+    <None Include="wwwroot\images\scheduler\airways-1.svg" />
+    <None Include="wwwroot\images\scheduler\airways-2.svg" />
+    <None Include="wwwroot\images\scheduler\airways-3.svg" />
+    <None Include="wwwroot\images\scheduler\birthday.svg" />
+    <None Include="wwwroot\images\scheduler\cancer-day.svg" />
+    <None Include="wwwroot\images\scheduler\christmas-eve.svg" />
+    <None Include="wwwroot\images\scheduler\christmas.svg" />
+    <None Include="wwwroot\images\scheduler\environment-day.svg" />
+    <None Include="wwwroot\images\scheduler\get-together.svg" />
+    <None Include="wwwroot\images\scheduler\happiness-day.svg" />
+    <None Include="wwwroot\images\scheduler\health-day.svg" />
+    <None Include="wwwroot\images\scheduler\newyear.svg" />
+    <None Include="wwwroot\images\scheduler\thanksgiving-day.svg" />
+    <None Include="wwwroot\images\scheduler\tourism-day.svg" />
+    <None Include="wwwroot\images\scheduler\weather-clear.svg" />
+    <None Include="wwwroot\images\scheduler\weather-clouds.svg" />
+    <None Include="wwwroot\images\scheduler\weather-rain.svg" />
+    <None Include="wwwroot\images\treemap\airplane.svg" />
+    <None Include="wwwroot\images\treemap\athletics.svg" />
+    <None Include="wwwroot\images\treemap\basket-ball.svg" />
+    <None Include="wwwroot\images\treemap\boxing.svg" />
+    <None Include="wwwroot\images\treemap\cycling.svg" />
+    <None Include="wwwroot\images\treemap\gymnastics.svg" />
+    <None Include="wwwroot\images\treemap\judo.svg" />
+    <None Include="wwwroot\images\treemap\rowing.svg" />
+    <None Include="wwwroot\images\treemap\shooting.svg" />
+    <None Include="wwwroot\images\treemap\soccer.svg" />
+    <None Include="wwwroot\images\treemap\swimming.svg" />
+    <None Include="wwwroot\images\treemap\tennis.svg" />
+    <None Include="wwwroot\images\treemap\trackandfield.svg" />
+    <None Include="wwwroot\images\treemap\triathlon.svg" />
+    <None Include="wwwroot\images\treemap\water-polo.svg" />
+    <None Include="wwwroot\images\treemap\wrestling.svg" />
+    <None Include="wwwroot\scripts\common\blazor.polyfill.min.js" />
+    <None Include="wwwroot\scripts\common\fuse.min.js" />
+    <None Include="wwwroot\scripts\common\highlight-cshtml-razor.js" />
+    <None Include="wwwroot\scripts\common\highlight.js" />
+    <None Include="wwwroot\scripts\common\highlight.min.js" />
+    <None Include="wwwroot\scripts\common\index.js" />
+    <None Include="wwwroot\scripts\common\lodash.min.js" />
+    <None Include="wwwroot\scripts\generatedata.js" />
+    <None Include="wwwroot\scripts\heatmap\datasource.js" />
+    <None Include="wwwroot\scripts\js-signals.min.js" />
+    <None Include="wwwroot\styles\common\fonts\icons.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.2" />
+    <PackageReference Include="Syncfusion.Blazor" Version="19.1.0.54" />
+  </ItemGroup>
+
+</Project>

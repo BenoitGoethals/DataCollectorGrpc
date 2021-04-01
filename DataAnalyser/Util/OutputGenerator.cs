@@ -1,118 +1,97 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
+
 using DataCollector.core.model;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using Microsoft.Extensions.Logging;
+using NLog;
+using Path = System.IO.Path;
+
 
 namespace DataAnalyser.Util
 {
     public class OutputGenerator : IOutputGenerator
     {
-        private string _outName = "test1.pdf";
-        private readonly PdfDocument _document = new PdfDocument();
-        public  OutputGenerator Create(List<IntelItem> items,string subject)
+        private byte[] _result;
+        private string _outName;
+        private  readonly string RootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "pdf");
+        private  readonly ILogger<OutputGenerator> _logger;
+
+        public OutputGenerator(ILogger<OutputGenerator> logger)
         {
-            ValidateTargetAvailable(_outName);
+            _logger = logger;
+        }
 
-            var pageNewRenderer = _document.AddPage();
-
-            var renderer = XGraphics.FromPdfPage(pageNewRenderer);
-
-            items.ForEach((i) =>
+        public OutputGenerator Create(List<IntelItem> items, string subject)
+        {
+            try
             {
-                renderer.DrawString(i.Content, new XFont("Arial", 12), XBrushes.Black, new XPoint(12, 12));
-                
-            });
+                using (var memoryStream = new MemoryStream())
+                {
+                    var pdfWriter = new PdfWriter(memoryStream);
+                    var pdfDocument = new PdfDocument(pdfWriter);
+                    var document = new Document(pdfDocument, PageSize.LETTER, true);
 
-            _outName = $"{subject}{DateTime.Now.Date}.pdf";
-           // ValidateFileIsPDF(outName);
+                    items.ForEach((i) =>
+                    {
+                        var p = new Paragraph();
+                        p.Add(new Text(!String.IsNullOrEmpty(i.Description) ? i.Description : "").SetBold());
+                        p.Add("\n\n");
+                        p.Add(new Text(!String.IsNullOrEmpty(i.Content) ? i.Content : ""));
+                        p.Add("\n\n");
+                        p.Add(new Text(!String.IsNullOrEmpty(i.Author) ? i.Author : ""));
+                        p.Add("\n\n");
+                        p.Add(new Text(!String.IsNullOrEmpty(i.Url) ? i.Url : ""));
+                        p.Add("\n\n");
+                        document.Add(p);
 
-            return this;
-        }
+                    });
+                    document.Close();
 
-        public  OutputGenerator Save()
-        {
-            SaveDocument(_document, _outName);
-            return this;
-        }
-        public  OutputGenerator Save(string path)
-        {
-            SaveDocument(_document, _outName);
-            return this;
-        }
-
-
-        private static readonly string RootPath = Path.GetDirectoryName(typeof(OutputGenerator).GetTypeInfo().Assembly.Location);
-
-        private const string OutputDirName = "Out";
-
-        private void SaveDocument(PdfDocument document, string name)
-        {
-            var outFilePAth = Path.Combine(RootPath, name);
-            var dir = Path.GetDirectoryName(outFilePAth);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
+                    _result = memoryStream.ToArray();
+                }
+                _outName = $"{subject}{DateTime.Now.ToFileTimeUtc()}.pdf";
             }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+           
 
-            document.Save(outFilePAth);
+            return this;
         }
 
-        private void ValidateFileIsPDF(string v)
+        public OutputGenerator Save()
         {
-            var path = Path.Combine(RootPath, OutputDirName, v);
+            try
+            {
+                if (_result != null)
+                {
+                    var outFilePAth = Path.Combine(RootPath,  _outName);
+                    var dir = Path.GetDirectoryName(outFilePAth);
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    File.WriteAllBytes(outFilePAth, _result);
+                }
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
           
-            var fi = new FileInfo(path);
-            
-
-            using (var stream = File.OpenRead(path))
-            {
-                ReadStreamAndVerifyPDFMagicNumber(stream);
-            }
+            return this;
         }
 
-        private static void ReadStreamAndVerifyPDFMagicNumber(Stream stream)
-        {
-            var readBuffer = new byte[5];
-            // PDF must start with %PDF-
-            var pdfsignature = new byte[5] { 0x25, 0x50, 0x44, 0x46, 0x2d };
 
-            stream.Read(readBuffer, 0, readBuffer.Length);
-         
-        }
-
-        private void ValidateTargetAvailable(string file)
-        {
-            var path = Path.Combine(RootPath, OutputDirName, file);
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-            
-        }
-
-      
-
-      
-        public void CreateTestPDFWithImage()
-        {
-            using (var stream = new MemoryStream())
-            {
-                var document = new PdfDocument();
-
-                PdfPage pageNewRenderer = document.AddPage();
-
-                var renderer = XGraphics.FromPdfPage(pageNewRenderer);
-
-                renderer.DrawImage(XImage.FromFile(Path.Combine(RootPath, "Assets", "lenna.png")), new XPoint(0, 0));
-
-                document.Save(stream);
-                stream.Position = 0;
-              ;
-                ReadStreamAndVerifyPDFMagicNumber(stream);
-            }
-        }
     }
 }
