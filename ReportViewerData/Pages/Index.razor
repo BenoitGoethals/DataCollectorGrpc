@@ -1,26 +1,32 @@
 @page "/"
+@inject IJSRuntime jsRuntime;
 
 
 @using System.Collections.ObjectModel
 @using System.ComponentModel
+@using System.Diagnostics
 @using System.IO
+@using System.Net
 @using Syncfusion.Blazor.Grids
-<h2>DataGrid</h2>
-<br />
+
+
 <div id="ControlRegion">
-    <SfGrid ID="Grid" DataSource="@_observableData" @ref="Grid" AllowPaging="true" AllowFiltering="true" AllowReordering="true" AllowResizing="true" AllowGrouping="true" AllowPdfExport="true" AllowSelection="true"
-            AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update","PdfExport","Search"})" Height="315" Width="900">
+    <SfGrid ID="Grid" DataSource="@_observableData" @ref="Grid" AllowPaging="true" AllowFiltering="false" AllowReordering="true" AllowResizing="true" AllowGrouping="true" AllowPdfExport="true" AllowSelection="true"
+            AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update","PdfExport","Search"})" Width="900">
 
-        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.FilterBar"></GridFilterSettings>
+       
         <GridPageSettings PageSizes="true"></GridPageSettings>
-        <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
+ 
         <GridEvents OnToolbarClick="ToolbarClick" TValue="DataIntel"></GridEvents>
+        <GridEvents RowSelected="RowSelecthandler" TValue="DataIntel"></GridEvents>
         <GridColumns>
-            <GridColumn Type='ColumnType.CheckBox' Width="10"></GridColumn>
+           
 
-            <GridColumn Field=@nameof(DataIntel.FileName) HeaderText="Name" Width="100"></GridColumn>
+            <GridColumn Field=@nameof(DataIntel.FileName) HeaderText="Name" Width="100">
+                
+            </GridColumn>
 
-            <GridColumn Field=@nameof(DataIntel.OrderDate) HeaderText="Date" Width="60"></GridColumn>
+            <GridColumn Field=@nameof(DataIntel.CreateDate) HeaderText="Date" Width="60"></GridColumn>
 
         </GridColumns>
     </SfGrid>
@@ -43,8 +49,17 @@
     }
 </style>
 @code{
-    SfGrid<DataIntel> Grid;
 
+    SfGrid<DataIntel> Grid;
+    public string filePath { get; set; }
+   
+    public async Task RowSelecthandler(RowSelectEventArgs<DataIntel> Args)
+    {
+        filePath = Args.Data.FullFileName;
+          await jsRuntime.InvokeAsync<string>("open", filePath);
+       
+
+    }
     public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
         if (args.Item.Id == "Grid_pdfexport")
@@ -64,7 +79,7 @@
     private int uniqueid { get; set; }
     public void OnChanged(object source, FileSystemEventArgs e)
     {
-        ObservableData.Add(new DataIntel() { FileName = Path.GetFileName(e.Name), OrderDate = File.GetCreationTime(e.FullPath) });
+        ObservableData.Add(new DataIntel() { FileName = Path.GetFileName(e.Name), FullFileName = e.FullPath ,CreateDate = File.GetCreationTime(e.FullPath) });
     }
     
     protected override void OnInitialized()
@@ -73,7 +88,7 @@
         ObservableData.Clear();
         foreach (var file in allFiles)
         {
-            ObservableData.Add(new DataIntel() {FileName = Path.GetFileName(file),OrderDate = File.GetCreationTime(file)});
+            ObservableData.Add(new DataIntel() {FileName = Path.GetFileName(file), FullFileName = file , CreateDate = File.GetCreationTime(file)});
         }
         try
         {
@@ -138,8 +153,9 @@
                 NotifyPropertyChanged("Id");
             }
         }
-        public DateTime OrderDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public string FileName { get; set; }
+        public string FullFileName { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName)
         {
