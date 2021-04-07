@@ -7,6 +7,10 @@ namespace Datacollector.core.scheduler
     {
         void AddRss(List<RssSource> urls);
         void Start();
-      
+        void AddRange(params string[] keys);
+
+
+        void Add(string key);
     }
+
 }

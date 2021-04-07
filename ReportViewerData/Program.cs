@@ -21,7 +21,7 @@ namespace ReportViewerData
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-             //       webBuilder.UseUrls("http://192.168.0.190:5000", "https://192.168.0.190:5001");
+                    webBuilder.UseUrls("http://192.168.0.190:5000", "https://192.168.0.190:5001");
                 });
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices.ComTypes;
@@ -15,10 +16,13 @@ namespace Datacollector.core.collectors
         private RssSource _rssSource;
         private readonly IWordCatalog _catalog;
 
-        public RssExtracter(RssSource rss, IWordCatalog catalog)
+        private HashSet<string> keys;
+
+        public RssExtracter(RssSource rss, IWordCatalog catalog, HashSet<string> keys)
         {
             this._rssSource = rss;
             _catalog = catalog;
+            this.keys = keys;
         }
 
         public void Start()
@@ -36,7 +40,7 @@ namespace Datacollector.core.collectors
         {
             var token = CancellationTokenSource.Token;
             var reader = new FeedReader();
-           using HttpClient vClient = new HttpClient();
+            using HttpClient vClient = new HttpClient();
             var http = await vClient.GetAsync(_rssSource.Url, token);
             if (http.IsSuccessStatusCode)
             {
@@ -45,26 +49,35 @@ namespace Datacollector.core.collectors
                     try
                     {
                         var items = reader.RetrieveFeed(_rssSource.Url);
+
+                        //check 
+
+
                         foreach (var i in items)
                         {
-                             var keywords = _catalog.GetKeywords(_rssSource.LanguageSource.Description,i.Summary);
-                            IntelItem intelItem = new IntelItem
+                            if (keys != null && (i.Content!=null && keys.Any(t => i.Content.Contains(t)) || keys?.Count == 0))
                             {
-                                Url = _rssSource.Url,
-                                Content = i.GetSummary(),
-                                Description = i.Title,
-                                DateTimeCollected = i.LastUpdatedDate.DateTime,
-                                Reamrks = i?.Categories?.FirstOrDefault()
-                            };
-                            intelItem.Keywords.AddRange(i.Categories);
-                            intelItem.Keywords.AddRange(keywords);
-                            intelItem.SourceCountry = _rssSource.SourceCountry;
-                            intelItem.LevelTrustable = _rssSource.Trustable;
-                            intelItem.LanguageIntel = _rssSource.LanguageSource;
-                            intelItem.CovertArea = _rssSource.CovertArea;
-                            intelItem.Type = _rssSource.Type;
 
-                            ProcessItemAdded(intelItem);
+
+                                var keywords = _catalog.GetKeywords(_rssSource.LanguageSource.Description, i.Summary);
+                                IntelItem intelItem = new IntelItem
+                                {
+                                    Url = _rssSource.Url,
+                                    Content = i.GetSummary(),
+                                    Description = i.Title,
+                                    DateTimeCollected = i.LastUpdatedDate.DateTime,
+                                    Reamrks = i?.Categories?.FirstOrDefault()
+                                };
+                                intelItem.Keywords.AddRange(i.Categories);
+                                intelItem.Keywords.AddRange(keywords);
+                                intelItem.SourceCountry = _rssSource.SourceCountry;
+                                intelItem.LevelTrustable = _rssSource.Trustable;
+                                intelItem.LanguageIntel = _rssSource.LanguageSource;
+                                intelItem.CovertArea = _rssSource.CovertArea;
+                                intelItem.Type = _rssSource.Type;
+
+                                ProcessItemAdded(intelItem);
+                            }
                         }
 
                         ProcessCompleted();
@@ -80,9 +93,9 @@ namespace Datacollector.core.collectors
             }
             else
             {
-                _logger.Warn("bad url "+ _rssSource.Url);
+                _logger.Warn("bad url " + _rssSource.Url);
             }
-            
+
         }
 
         void IJob.Execute()

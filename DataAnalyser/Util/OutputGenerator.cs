@@ -21,8 +21,8 @@ namespace DataAnalyser.Util
     {
         private byte[] _result;
         private string _outName;
-        private  readonly string RootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "pdf");
-        private  readonly ILogger<OutputGenerator> _logger;
+        private readonly string RootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "pdf");
+        private readonly ILogger<OutputGenerator> _logger;
 
         public OutputGenerator(ILogger<OutputGenerator> logger)
         {
@@ -43,13 +43,18 @@ namespace DataAnalyser.Util
                     {
                         var p = new Paragraph();
                         p.Add(new Text(!String.IsNullOrEmpty(i.Description) ? i.Description : "").SetBold());
-                        p.Add("\n\n");
+                        p.Add("\n");
+                        p.Add(new Text(!String.IsNullOrEmpty(i?.DateTimeCollected.ToShortDateString()) ? i.DateTimeCollected.ToShortDateString() : "").SetBold());
+                        p.Add("\n");
                         p.Add(new Text(!String.IsNullOrEmpty(i.Content) ? i.Content : ""));
-                        p.Add("\n\n");
+                        p.Add("\n");
                         p.Add(new Text(!String.IsNullOrEmpty(i.Author) ? i.Author : ""));
-                        p.Add("\n\n");
+                        p.Add("\n");
+                        p.Add(new Text(!String.IsNullOrEmpty(i.CovertArea.ToString()) ? i.CovertArea.ToString() : ""));
+                        p.Add("\n");
                         p.Add(new Text(!String.IsNullOrEmpty(i.Url) ? i.Url : ""));
-                        p.Add("\n\n");
+                        p.Add("\n");
+                        p.Add("\n");
                         document.Add(p);
 
                     });
@@ -57,13 +62,14 @@ namespace DataAnalyser.Util
 
                     _result = memoryStream.ToArray();
                 }
-                _outName = $"{subject}{DateTime.Now.ToFileTimeUtc()}.pdf";
+                _outName = $"{subject}.pdf";
+
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
-           
+
 
             return this;
         }
@@ -74,11 +80,16 @@ namespace DataAnalyser.Util
             {
                 if (_result != null)
                 {
-                    var outFilePAth = Path.Combine(RootPath,  _outName);
+                    var outFilePAth = Path.Combine(RootPath, _outName);
                     var dir = Path.GetDirectoryName(outFilePAth);
                     if (!Directory.Exists(dir))
                     {
                         Directory.CreateDirectory(dir);
+                    }
+
+                    if (File.Exists(outFilePAth))
+                    {
+                        File.Delete(outFilePAth);
                     }
                     File.WriteAllBytes(outFilePAth, _result);
                 }
@@ -88,7 +99,7 @@ namespace DataAnalyser.Util
             {
                 _logger.LogError(e.Message);
             }
-          
+
             return this;
         }
 
