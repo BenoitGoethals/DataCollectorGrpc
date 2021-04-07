@@ -16,6 +16,11 @@ namespace Datacollector.core.scheduler
 {
     public class Collector : ICollector
     {
+
+
+        private HashSet<string>  SearchKeys=new HashSet<string>();
+
+        
         private readonly ILogger<Collector> _logger;
         private readonly IMongoDbRepoAsync<IntelItem> _dbRepoAsync;
         private readonly IWordCatalog _catalog;
@@ -26,6 +31,22 @@ namespace Datacollector.core.scheduler
             _extracterScheduler = extracterScheduler;
             _dbRepoAsync = dbRepoAsync;
             _catalog = catalog;
+        }
+
+
+        public void Add(string key)
+        {
+            SearchKeys.Add(key);
+        }
+
+        public void AddRange(params string[] keys )
+        {
+            foreach (var key in keys)
+            {
+                SearchKeys.Add(key);
+            }
+
+            
         }
 
 
@@ -43,7 +64,7 @@ namespace Datacollector.core.scheduler
         {
             _urls.ForEach(t=>
             {
-                var webExtracter = new RssExtracter(t, _catalog);
+                var webExtracter = new RssExtracter(t, _catalog, SearchKeys);
                 webExtracter.Completed += WebExtracter_Completed;
                 _extracterScheduler.Add(extracter: webExtracter, 1);
             });
