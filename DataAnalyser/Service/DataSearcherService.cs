@@ -22,7 +22,7 @@ namespace DataAnalyser.Service
         public async Task<List<IntelItem>> Collect(string word)
         {
             var builder = Builders<IntelItem>.Filter;
-            var filter = builder.Text(word,new TextSearchOptions(){CaseSensitive = false,DiacriticSensitive = true}) ;
+            var filter = builder.Text($"\"{word}\"", new TextSearchOptions(){CaseSensitive = false}) ;
             return await _dbRepoAsync.Get(filter: filter);
        
         }

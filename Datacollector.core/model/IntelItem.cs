@@ -46,5 +46,18 @@ namespace DataCollector.core.model
         {
             return $"{nameof(Keywords)}: {Keywords}, {nameof(DateTimeCollected)}: {DateTimeCollected}, {nameof(Security)}: {Security}, {nameof(Type)}: {Type}, {nameof(Description)}: {Description},  {nameof(Reamrks)}: {Reamrks}, {nameof(LevelTrustable)}: {LevelTrustable}, {nameof(Source)}: {Source}, {nameof(SourceCountry)}: {SourceCountry}, {nameof(LanguageIntel)}: {LanguageIntel}, {nameof(Author)}: {Author}, {nameof(ServerniessLevel)}: {ServerniessLevel}, {nameof(Url)}: {Url}, {nameof(CovertArea)}: {CovertArea}";
         }
+
+        private sealed class DateTimeCollectedRelationalComparer : IComparer<IntelItem>
+        {
+            public int Compare(IntelItem x, IntelItem y)
+            {
+                if (ReferenceEquals(x, y)) return 0;
+                if (ReferenceEquals(null, y)) return 1;
+                if (ReferenceEquals(null, x)) return -1;
+                return x.DateTimeCollected.CompareTo(y.DateTimeCollected);
+            }
+        }
+
+        public static IComparer<IntelItem> DateTimeCollectedComparer { get; } = new DateTimeCollectedRelationalComparer();
     }
 }

@@ -50,12 +50,9 @@ namespace Datacollector.core.collectors
                     {
                         var items = reader.RetrieveFeed(_rssSource.Url);
 
-                        //check 
-
-
                         foreach (var i in items)
                         {
-                            if (keys != null && (i.Content!=null && keys.Any(t => i.Content.Contains(t)) || keys?.Count == 0))
+                            if ((keys != null && (i.Content!=null && keys.Any(t => i.Content.Contains(t))) || keys?.Count == 0))
                             {
 
 
