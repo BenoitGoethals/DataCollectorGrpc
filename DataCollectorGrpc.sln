@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAnalyser", "DataAnalyse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportViewerData", "ReportViewerData\ReportViewerData.csproj", "{C2972ED8-FD29-48EE-BAF1-4AD1C3E4796D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datacollector.coreTests", "Datacollector.coreTests\Datacollector.coreTests.csproj", "{4756FD0D-EB3F-4193-A964-26518F3C68BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Datacollector.coreTests", "Datacollector.coreTests\Datacollector.coreTests.csproj", "{4756FD0D-EB3F-4193-A964-26518F3C68BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

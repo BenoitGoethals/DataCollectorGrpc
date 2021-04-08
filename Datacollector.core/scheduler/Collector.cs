@@ -18,7 +18,7 @@ namespace Datacollector.core.scheduler
     {
 
 
-        private HashSet<string>  SearchKeys=new HashSet<string>();
+        private readonly HashSet<string>  SearchKeys=new HashSet<string>();
 
         
         private readonly ILogger<Collector> _logger;
@@ -76,7 +76,7 @@ namespace Datacollector.core.scheduler
             {
                 var filter = Builders<IntelItem>.Filter.Eq(nameof(IntelItem.Description), intel.Description);
                 var intelItems = _dbRepoAsync.Get(filter).Result;
-                if (intelItems.Count==0)
+                if (intelItems?.Count==0)
                 {
                     await _dbRepoAsync.InsertAsync(intel);
                     _logger.LogInformation("insert"+intel);

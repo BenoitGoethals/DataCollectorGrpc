@@ -38,7 +38,7 @@ namespace DataAnalyser.Util
                     var pdfWriter = new PdfWriter(memoryStream);
                     var pdfDocument = new PdfDocument(pdfWriter);
                     var document = new Document(pdfDocument, PageSize.LETTER, true);
-
+                    items.Sort(IntelItem.DateTimeCollectedComparer);
                     items.ForEach((i) =>
                     {
                         var p = new Paragraph();

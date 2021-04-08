@@ -18,7 +18,7 @@
         <GridPageSettings PageSizes="true"></GridPageSettings>
  
         <GridEvents OnToolbarClick="ToolbarClick" TValue="DataIntel"></GridEvents>
-        <GridEvents RowSelected="RowSelecthandler" TValue="DataIntel"></GridEvents>
+        <GridEvents RowSelected="RowSelecthandler"  TValue="DataIntel"></GridEvents>
         <GridColumns>
            
 
@@ -30,6 +30,7 @@
 
         </GridColumns>
     </SfGrid>
+    <label>Last Update</label>@dateTimeUpdated
 </div>
 <br />
 
@@ -49,15 +50,18 @@
     }
 </style>
 @code{
-
+    private DateTime dateTimeUpdated;
     SfGrid<DataIntel> Grid;
     public string filePath { get; set; }
    
     public async Task RowSelecthandler(RowSelectEventArgs<DataIntel> Args)
     {
         filePath = Args.Data.FullFileName;
-          await jsRuntime.InvokeAsync<string>("open", filePath);
-       
+
+     //   var stream = new FileStream(@"path\to\file", FileMode.Open);
+      //  return File(stream, "application/pdf", "FileDownloadName.ext"); 
+          await jsRuntime.InvokeAsync<string>("open", $"/download?name={filePath}","_blank");
+            
 
     }
     public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
@@ -79,6 +83,7 @@
     private int uniqueid { get; set; }
     public void OnChanged(object source, FileSystemEventArgs e)
     {
+        dateTimeUpdated=DateTime.Now;
         ObservableData.Add(new DataIntel() { FileName = Path.GetFileName(e.Name), FullFileName = e.FullPath ,CreateDate = File.GetCreationTime(e.FullPath) });
     }
     

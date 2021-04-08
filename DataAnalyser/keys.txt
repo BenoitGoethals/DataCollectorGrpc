@@ -3,3 +3,5 @@ Astrazeneca
 Covvid-19
 NVA
 OPENVLD
+Beke
+DeCroo
