@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DataAnalyser": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
