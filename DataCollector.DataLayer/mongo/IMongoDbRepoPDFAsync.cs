@@ -7,8 +7,8 @@ namespace DataCollector.DataLayer
 {
     public interface IMongoDbRepoPDFAsync
     {
-        Task<ObjectId> SavePdf(string file, MetaData data);
-        Task<GridFSDownloadStream> LoadPdfAsync(string fileName);
+        Task<ObjectId> SavePdf(string file, byte[] data, MetaData metaData);
+        Task<byte[]> LoadPdfAsync(string fileName);
         Task DeleteAll();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using DataCollector.DataLayer.mongo;
@@ -23,30 +24,31 @@ namespace DataCollector.DataLayer
             
         }
 
-      
 
-        public Task<ObjectId> SavePdf(string file, MetaData data)
+
+        public Task<ObjectId> SavePdf(string file, byte[] data,MetaData metaData)
         {
             var gridFsBucket = new GridFSBucket(_database);
 
-            var tsk= Task.Run(() => gridFsBucket.UploadFromStreamAsync(file, new FileStream(file, FileMode.Open, FileAccess.Read),new GridFSUploadOptions(){Metadata = data.ToBsonDocument()}));
+            var tsk= Task.Run(() => gridFsBucket.UploadFromBytes(file, data,new GridFSUploadOptions(){Metadata = metaData.ToBsonDocument() }));
 
             return tsk;
 
         }
 
 
-        public async Task<GridFSDownloadStream> LoadPdfAsync(string fileName)
+        public async Task<byte[]> LoadPdfAsync(string fileName)
         {
             var gridFsBucket = new GridFSBucket(_database);
             var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Filename, fileName);
             var finData = await gridFsBucket.FindAsync(filter);
-            var firstData = finData.FirstOrDefault();
+            var firstData = finData.FirstAsync().Result;
             var bsonId = firstData.Id;
-            var dataStream = await gridFsBucket.OpenDownloadStreamAsync(bsonId, new GridFSDownloadOptions() { Seekable = true});
+            byte[] content = await gridFsBucket.DownloadAsBytesAsync(firstData.Id);
+          //  var dataStream = await gridFsBucket.OpenDownloadStreamAsync(bsonId);
 
 
-            return dataStream;
+            return content;
         }
 
         public async Task DeleteAll()

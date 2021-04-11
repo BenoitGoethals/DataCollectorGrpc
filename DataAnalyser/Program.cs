@@ -23,21 +23,25 @@ namespace DataAnalyser
                        services
                            .AddSingleton<IMongoDbRepoAsync<IntelItem>>(
                                new MongoDbRepoAsync<IntelItem>(_config["Mongo:URL"], _config["Mongo:db"]))
-                           .AddSingleton<IDataSearcherService, DataSearcherService >()
-                          .AddSingleton<IOutputGenerator,OutputGenerator >()
-                         //  .AddSingleton<IDataSearcherService,>()
-                           //.AddSingleton<IExtracterScheduler, ExtracterScheduler>()
-                           //.AddSingleton<IWordCatalog, WordCatalog>()
+                           .AddSingleton<IMongoDbRepoPDFAsync>(new MongoDbRepoPdfAsync(_config["Mongo:URL"], _config["Mongo:db"]))
+                           .AddSingleton<IDataService, DataService>()
+                          .AddSingleton<IOutPdfOutGenerator, OutputPdfGenerator>()
+                           .RegisterEasyNetQ(
+                               "host=192.168.0.10;port=49157;username=admin;password=admin")
+                           .AddSingleton<IRabbitMqService, RabbitMqService>()
 
+
+                     
                            .AddHostedService<Worker>()
 
                            .AddLogging(loggingBuilder =>
                            {
-                                   // configure Logging with NLog
-                                   loggingBuilder.ClearProviders();
+                               // configure Logging with NLog
+                               loggingBuilder.ClearProviders();
                                loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                                loggingBuilder.AddNLog(_config);
                            });
+                    
                    }
                    );
 

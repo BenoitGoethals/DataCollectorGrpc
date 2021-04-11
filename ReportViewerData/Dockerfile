@@ -18,5 +18,6 @@ RUN dotnet publish "ReportViewerData.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+CMD mkdir /app/pdf
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ReportViewerData.dll"]

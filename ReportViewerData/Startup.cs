@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAnalyser.Service;
 
 namespace ReportViewerData
 {
@@ -48,10 +49,14 @@ namespace ReportViewerData
                     options.DefaultRequestCulture = new RequestCulture("en-US");
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
-                }); 
+                });
+            services.RegisterEasyNetQ("host=192.168.0.10;port=49157;username=admin;password=admin");
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IRabbitMqService, RabbitMqService>();
+       
+            services.AddHostedService<Worker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
