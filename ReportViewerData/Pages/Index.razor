@@ -1,40 +1,37 @@
-@page "/"
+﻿@page "/"
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using System.Collections.ObjectModel
+@using System.ComponentModel
+@using System.IO
 @inject IJSRuntime jsRuntime;
 
 
-@using System.Collections.ObjectModel
-@using System.ComponentModel
-@using System.Diagnostics
-@using System.IO
-@using System.Net
-@using Syncfusion.Blazor.Grids
-
-
 <div id="ControlRegion">
-    <SfGrid ID="Grid" DataSource="@_observableData" @ref="Grid" AllowPaging="true" AllowFiltering="false" AllowReordering="true" AllowResizing="true" AllowGrouping="true"  AllowSelection="true"
-            AllowSorting="true"  Width="900">
+    <SfGrid ID="Grid" DataSource="@ObservableData" @ref="Grid" AllowPaging="true" AllowFiltering="false" AllowReordering="true" AllowResizing="true" AllowGrouping="true" AllowSelection="true"
+            AllowSorting="true" Width="900">
 
-       
+
         <GridPageSettings PageSizes="true"></GridPageSettings>
- 
-        <GridEvents OnToolbarClick="ToolbarClick" TValue="DataIntel"></GridEvents>
-        <GridEvents RowSelected="RowSelecthandler"  TValue="DataIntel"></GridEvents>
-        <GridColumns>
-           
 
-            <GridColumn Field=@nameof(DataIntel.FileName) HeaderText="Name" Width="100">
-                
+        <GridEvents OnToolbarClick="ToolbarClick" TValue="DataIntel"></GridEvents>
+        <GridEvents RowSelected="RowSelecthandler" TValue="DataIntel"></GridEvents>
+        <GridColumns>
+
+
+            <GridColumn Field="@nameof(DataIntel.FileName)" HeaderText="Name" Width="100">
+
             </GridColumn>
 
-            <GridColumn Field=@nameof(DataIntel.CreateDate) HeaderText="Date" Width="60"></GridColumn>
+            <GridColumn Field="@nameof(DataIntel.CreateDate)" HeaderText="Date" Width="60"></GridColumn>
 
         </GridColumns>
     </SfGrid>
     <label>Last Update</label>@dateTimeUpdated
 </div>
-<br />
+<br/>
 
-<br />
+<br/>
 <style>
     .ulstyle {
         margin: 0px;
@@ -49,80 +46,74 @@
         min-width: 200px;
     }
 </style>
+
 @code{
     private DateTime dateTimeUpdated;
     SfGrid<DataIntel> Grid;
     public string filePath { get; set; }
-   
+
     public async Task RowSelecthandler(RowSelectEventArgs<DataIntel> Args)
     {
         filePath = Args.Data.FullFileName;
 
-     //   var stream = new FileStream(@"path\to\file", FileMode.Open);
-      //  return File(stream, "application/pdf", "FileDownloadName.ext"); 
-          await jsRuntime.InvokeAsync<string>("open", $"/download?name={filePath}","_blank");
-            
-
+    //   var stream = new FileStream(@"path\to\file", FileMode.Open);
+    //  return File(stream, "application/pdf", "FileDownloadName.ext"); 
+        await jsRuntime.InvokeAsync<string>("open", $"/download?name={filePath}", "_blank");
     }
-    public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+
+    public void ToolbarClick(ClickEventArgs args)
     {
         if (args.Item.Id == "Grid_pdfexport")
         {
-            this.Grid.PdfExport();
+            Grid.PdfExport();
         }
     }
-    private FileSystemWatcher watcher = new FileSystemWatcher();
-    private ObservableCollection<DataIntel> _observableData = new ObservableCollection<DataIntel>();
 
-    public ObservableCollection<DataIntel> ObservableData
-    {
-        get => _observableData;
-        set => _observableData = value;
-    }
+    private readonly FileSystemWatcher watcher = new();
+
+    public ObservableCollection<DataIntel> ObservableData { get; set; } = new();
 
     private int uniqueid { get; set; }
+
     public void OnChanged(object source, FileSystemEventArgs e)
     {
-        dateTimeUpdated=DateTime.Now;
-        ObservableData.Add(new DataIntel() { FileName = Path.GetFileName(e.Name), FullFileName = e.FullPath ,CreateDate = File.GetCreationTime(e.FullPath) });
+        dateTimeUpdated = DateTime.Now;
+        ObservableData.Add(new DataIntel {FileName = Path.GetFileName(e.Name), FullFileName = e.FullPath, CreateDate = File.GetCreationTime(e.FullPath)});
     }
-    
+
     protected override void OnInitialized()
     {
-        var allFiles = Directory.GetFiles(Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"pdf"));
+        var allFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "pdf"));
         ObservableData.Clear();
         foreach (var file in allFiles)
         {
-            ObservableData.Add(new DataIntel() {FileName = Path.GetFileName(file), FullFileName = file , CreateDate = File.GetCreationTime(file)});
+            ObservableData.Add(new DataIntel {FileName = Path.GetFileName(file), FullFileName = file, CreateDate = File.GetCreationTime(file)});
         }
         try
         {
-            watcher.Path =Path.Combine( "/app","pdf");
-            // Watch both files and subdirectories.
+            watcher.Path = Path.Combine("/app", "pdf");
+    // Watch both files and subdirectories.
             watcher.IncludeSubdirectories = true;
-            // Watch for all changes specified in the NotifyFilters
-            //enumeration.
+    // Watch for all changes specified in the NotifyFilters
+    //enumeration.
             watcher.NotifyFilter = NotifyFilters.Attributes |
-            NotifyFilters.CreationTime |
-            NotifyFilters.DirectoryName |
-            NotifyFilters.FileName |
-            NotifyFilters.LastAccess |
-            NotifyFilters.LastWrite |
-            NotifyFilters.Security |
-            NotifyFilters.Size;
-            // Watch all files.
+                                   NotifyFilters.CreationTime |
+                                   NotifyFilters.DirectoryName |
+                                   NotifyFilters.FileName |
+                                   NotifyFilters.LastAccess |
+                                   NotifyFilters.LastWrite |
+                                   NotifyFilters.Security |
+                                   NotifyFilters.Size;
+    // Watch all files.
             watcher.Filter = "*.*";
-            // Add event handlers.
+    // Add event handlers.
 
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.Deleted += new FileSystemEventHandler(ondelete);
+            watcher.Created += OnChanged;
+            watcher.Deleted += ondelete;
 
-            // watcher.BeginInit();
-            //Start monitoring.
+    // watcher.BeginInit();
+    //Start monitoring.
             watcher.EnableRaisingEvents = true;
-
-
-
         }
         catch (IOException e)
         {
@@ -132,10 +123,6 @@
         {
             Console.WriteLine("An Exception Occurred :" + oe);
         }
-
-
-
-
     }
 
     private void ondelete(object sender, FileSystemEventArgs e)
@@ -147,21 +134,23 @@
 
     public class DataIntel : INotifyPropertyChanged
     {
-
         private int id;
+
         public int Id
         {
-            get { return id; }
+            get => id;
             set
             {
-                this.id = value;
+                id = value;
                 NotifyPropertyChanged("Id");
             }
         }
+
         public DateTime CreateDate { get; set; }
         public string FileName { get; set; }
         public string FullFileName { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;

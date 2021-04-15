@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "DataAnalyser.Grpc";
+
+package intel;
+
+// The greeting service definition.
+service IntelData {
+  // Sends a greeting
+  rpc GetIntel (Keyword) returns (IntelDataCollection);
+}
+
+// The request message containing the user's name.
+message Keyword {
+  string name = 1;
+}
+
+// The response message containing the greetings.
+message Intel {
+  string message = 1;
+}
+
+message IntelDataCollection {
+  repeated string IntelData = 1;
+}
