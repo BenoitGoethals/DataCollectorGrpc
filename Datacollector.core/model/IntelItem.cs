@@ -23,7 +23,7 @@ namespace DataCollector.core.model
 
         public string Content { get; set; }
 
-        public string Reamrks { get; set; }
+        public string Remarks { get; set; }
 
         public int LevelTrustable { get; set; }
 
@@ -44,7 +44,7 @@ namespace DataCollector.core.model
 
         public override string ToString()
         {
-            return $"{nameof(Keywords)}: {Keywords}, {nameof(DateTimeCollected)}: {DateTimeCollected}, {nameof(Security)}: {Security}, {nameof(Type)}: {Type}, {nameof(Description)}: {Description},  {nameof(Reamrks)}: {Reamrks}, {nameof(LevelTrustable)}: {LevelTrustable}, {nameof(Source)}: {Source}, {nameof(SourceCountry)}: {SourceCountry}, {nameof(LanguageIntel)}: {LanguageIntel}, {nameof(Author)}: {Author}, {nameof(ServerniessLevel)}: {ServerniessLevel}, {nameof(Url)}: {Url}, {nameof(CovertArea)}: {CovertArea}";
+            return $"{nameof(Keywords)}: {Keywords}, {nameof(DateTimeCollected)}: {DateTimeCollected}, {nameof(Security)}: {Security}, {nameof(Type)}: {Type}, {nameof(Description)}: {Description},  {nameof(Remarks)}: {Remarks}, {nameof(LevelTrustable)}: {LevelTrustable}, {nameof(Source)}: {Source}, {nameof(SourceCountry)}: {SourceCountry}, {nameof(LanguageIntel)}: {LanguageIntel}, {nameof(Author)}: {Author}, {nameof(ServerniessLevel)}: {ServerniessLevel}, {nameof(Url)}: {Url}, {nameof(CovertArea)}: {CovertArea}";
         }
 
         private sealed class DateTimeCollectedRelationalComparer : IComparer<IntelItem>

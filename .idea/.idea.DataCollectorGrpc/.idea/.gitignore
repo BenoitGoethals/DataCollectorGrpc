@@ -2,12 +2,12 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
+/modules.xml
 /projectSettingsUpdater.xml
 /contentModel.xml
 /.idea.DataCollectorGrpc.iml
-/modules.xml
 # Datasource local storage ignored files
-/../../../../../../../../:\Users\benoit\RiderProjects\DataCollectorGrpc\.idea\.idea.DataCollectorGrpc\.idea/dataSources/
+/../../../../../../../../:\Users\User\RiderProjects\DataCollectorGrpc\.idea\.idea.DataCollectorGrpc\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/

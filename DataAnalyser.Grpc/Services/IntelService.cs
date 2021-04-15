@@ -14,12 +14,13 @@ namespace DataAnalyser.Grpc.Services
             _dataService = dataService;
         }
 
+        
         public override async Task<IntelDataCollection> GetIntel(Keyword request, ServerCallContext context)
         {
             var list = new List<Intel>();
             var ret = await _dataService.Collect(request.Name);
-            ret.ForEach(i => list.Add(new Intel()));
-            var reply = new IntelDataCollection();
+            ret.ForEach(i => list.Add(new Intel(){Message = i.Description}));
+            var reply = new IntelDataCollection(){IntelData = {list}};
             return await Task.FromResult(reply);
         }
     }

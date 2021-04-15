@@ -91,7 +91,7 @@
         }
         try
         {
-            watcher.Path = Path.Combine("/app", "pdf");
+            watcher.Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "pdf");
     // Watch both files and subdirectories.
             watcher.IncludeSubdirectories = true;
     // Watch for all changes specified in the NotifyFilters

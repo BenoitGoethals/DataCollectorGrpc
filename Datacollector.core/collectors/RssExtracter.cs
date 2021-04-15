@@ -63,7 +63,7 @@ namespace Datacollector.core.collectors
                                     Content = i.GetSummary(),
                                     Description = i.Title,
                                     DateTimeCollected = i.LastUpdatedDate.DateTime,
-                                    Reamrks = i?.Categories?.FirstOrDefault()
+                                    Remarks = i?.Categories?.FirstOrDefault()
                                 };
                                 intelItem.Keywords.AddRange(i.Categories);
                                 intelItem.Keywords.AddRange(keywords);

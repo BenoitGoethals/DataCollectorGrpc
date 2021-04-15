@@ -8,17 +8,16 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Model\**" />
+    <None Remove="transformers\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="transformers\" />
+    <EmbeddedResource Remove="Model\**" />
+    <EmbeddedResource Remove="transformers\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +48,11 @@
     <None Update="rss.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\**" />
+    <Compile Remove="transformers\**" />
   </ItemGroup>
 
 </Project>
