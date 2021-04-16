@@ -4,14 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DataAnalyserTests.Fixture
 {
-    public class GrpcServerFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public abstract class GrpcServerFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
                 // Remove the app's Repository registration.
-            //    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(UserService));
+                //    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(UserService));
 
                 //if (descriptor != null)
                 //{
@@ -24,9 +24,7 @@ namespace DataAnalyserTests.Fixture
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
                 //to do...
-
             });
         }
-
     }
 }
