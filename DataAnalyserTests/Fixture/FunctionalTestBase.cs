@@ -3,10 +3,10 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DataAnalyser.Grpc;
+using DataAnalyserTests.Fixture;
 using Grpc.Net.Client;
 
 using Xunit;
-using XUnitTestProjectServiceUsers.Fixture;
 
 public class FunctionalTestBase : IClassFixture<GrpcServerFactory<Startup>>, IDisposable
     {

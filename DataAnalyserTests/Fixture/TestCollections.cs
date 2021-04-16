@@ -4,11 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using DataAnalyser.Grpc;
 using Grpc.Net.Client;
-
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace GrpcServiceBookTests.Fixture
+namespace DataAnalyserTests.Fixture
 {
     public static class TestCollections
     {

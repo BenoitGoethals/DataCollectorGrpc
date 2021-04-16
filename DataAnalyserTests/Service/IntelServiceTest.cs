@@ -1,7 +1,7 @@
 ﻿using DataAnalyser.Grpc;
+using DataAnalyserTests.Fixture;
 using FluentAssertions;
 using Xunit;
-using XUnitTestProjectServiceUsers.Fixture;
 
 namespace DataAnalyserTests.IntegrationTests
 {
