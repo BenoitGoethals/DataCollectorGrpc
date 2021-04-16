@@ -3,7 +3,7 @@ using FluentAssertions;
 using Xunit;
 using XUnitTestProjectServiceUsers.Fixture;
 
-namespace DataAnalyserTests.Service
+namespace DataAnalyserTests.IntegrationTests
 {
     public class IntelServiceTest: FunctionalTestBase
     {

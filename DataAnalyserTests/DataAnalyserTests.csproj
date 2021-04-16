@@ -36,10 +36,4 @@
     <ProjectReference Include="..\DataAnalyser\DataAnalyser.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="test.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

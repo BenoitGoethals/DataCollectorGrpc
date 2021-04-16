@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalyserTests", "DataAn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTester", "ConsoleAppTester\ConsoleAppTester.csproj", "{03CF24DB-F037-41AC-B867-A5F6BC729C6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTestMongo", "IntegrationTestMongo\IntegrationTestMongo.csproj", "{6E076FD5-F8A1-4E8D-975B-6AA8DB29BE57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{03CF24DB-F037-41AC-B867-A5F6BC729C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03CF24DB-F037-41AC-B867-A5F6BC729C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03CF24DB-F037-41AC-B867-A5F6BC729C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E076FD5-F8A1-4E8D-975B-6AA8DB29BE57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E076FD5-F8A1-4E8D-975B-6AA8DB29BE57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E076FD5-F8A1-4E8D-975B-6AA8DB29BE57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E076FD5-F8A1-4E8D-975B-6AA8DB29BE57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
